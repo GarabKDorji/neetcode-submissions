@@ -1,0 +1,26 @@
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        
+        candidates.sort()
+        res = []
+        path = []
+
+        def dfs(currSum, index): 
+            if currSum == target: 
+                res.append(path[:])
+                return 
+            
+            if currSum > target or index >= len(candidates):
+                return 
+            
+            for i in range(index, len(candidates)):
+                if i > index and candidates[i] == candidates[i-1]:
+                    continue 
+                if currSum + candidates[i] > target:
+                    break
+                path.append(candidates[i])
+                dfs(currSum + candidates[i], i + 1)
+                path.pop()
+            
+        dfs(0,0)
+        return res
